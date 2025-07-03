@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/darthkali/perfect-tour/compare/v1.0.1...v1.0.2) (2025-07-03)
+
+
+### Bug Fixes
+
+* updated workflow ([29584e0](https://github.com/darthkali/perfect-tour/commit/29584e01f72c3f1588e0fc5fed98f7d3dbf62358))
+
 ## [1.0.1](https://github.com/darthkali/perfect-tour/compare/v1.0.0...v1.0.1) (2025-07-03)
 
 
