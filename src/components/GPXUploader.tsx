@@ -2,6 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { useGPXParser } from '../hooks/useGPXParser';
 import { GPXMap } from './GPXMap';
+import { ElevationProfile } from './ElevationProfile';
 
 export const GPXUploader: React.FC = () => {
     const { parseGPXFile, clearData, gpxData, isLoading, error } = useGPXParser();
@@ -178,12 +179,18 @@ export const GPXUploader: React.FC = () => {
                         </div>
                     ))}
 
-                    {/* Karte statt Placeholder */}
+                    {/* Karte */}
                     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div className="h-96">
                             <GPXMap tracks={gpxData.tracks} className="h-full" />
                         </div>
                     </div>
+
+                    {/* Höhenprofil */}
+                    <ElevationProfile
+                        tracks={gpxData.tracks}
+                        className="mt-6"
+                    />
                 </div>
             )}
         </div>
