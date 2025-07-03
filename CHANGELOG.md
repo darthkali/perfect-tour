@@ -1,3 +1,10 @@
+## [0.0.4](https://github.com/darthkali/perfect-tour/compare/v0.0.3...v0.0.4) (2025-07-03)
+
+
+### Bug Fixes
+
+* added nginx conf ([521da75](https://github.com/darthkali/perfect-tour/commit/521da750bc94bd14721af12e3bfb2318f1df3909))
+
 ## [1.0.2](https://github.com/darthkali/perfect-tour/compare/v1.0.1...v1.0.2) (2025-07-03)
 
 
