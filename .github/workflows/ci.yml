@@ -39,22 +39,33 @@ jobs:
           pkill -f "vite preview"  # Preview wieder stoppen
 
       # 5) Semantic Release ausführen
+      #
+      #    - Wir lassen Semantic Release laufen und leiten die Ausgabe in eine Log-Datei um.
+      #    - Anschließend suchen wir in diesem Log nach der Version und geben sie als Output aus.
+      #    - Wenn keine neue Version veröffentlicht wird, bricht Semantic Release mit Code 0 ab,
+      #      wir setzen dann "version" leer und überspringen das Docker-Build später.
+      # > sr.log 2>&1 || true
       - name: Semantic Release
         id: semantic_release
         run: |
-          npx semantic-release --debug > sr.log 2>&1 || true
-          
-          # Version aus semantic-release extrahieren
-          if grep -q "Published release" sr.log; then
-            VERSION=$(grep "Published release" sr.log | sed -n 's/.*Published release \([0-9.]*\).*/\1/p')
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "New release version: $VERSION"
-          else
-            echo "version=" >> $GITHUB_OUTPUT
-            echo "No new release created"
-          fi
+          # Führe semantic-release aus und speichere die Log-Ausgabe
+          npx semantic-release --debug
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Im nächsten Schritt die Variable verwenden
+      - name: Check semantic-release version
+        id: check_version
+        run: |
+          echo "SEMANTIC_RELEASE_VERSION: $SEMANTIC_RELEASE_VERSION"
+          if [ -z "$SEMANTIC_RELEASE_VERSION" ]; then
+            echo "No new release created."
+            echo "version=" >> $GITHUB_OUTPUT
+            exit 0
+          else
+            echo "New release version: $SEMANTIC_RELEASE_VERSION"
+            echo "version=$SEMANTIC_RELEASE_VERSION" >> $GITHUB_OUTPUT
+          fi
 
       # 6) Docker Setup (nur bei neuem Release)
       - name: Set up Docker Buildx
