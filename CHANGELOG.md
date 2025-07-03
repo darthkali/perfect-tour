@@ -1,3 +1,10 @@
+## [0.0.5](https://github.com/darthkali/perfect-tour/compare/v0.0.4...v0.0.5) (2025-07-03)
+
+
+### Bug Fixes
+
+* changed docker path ([ed7b96f](https://github.com/darthkali/perfect-tour/commit/ed7b96f3c7ae2f7b877483a558939a72f0da02b2))
+
 ## [0.0.4](https://github.com/darthkali/perfect-tour/compare/v0.0.3...v0.0.4) (2025-07-03)
 
 
