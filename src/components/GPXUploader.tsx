@@ -1,6 +1,7 @@
 // src/components/GPXUploader.tsx
 import React, { useRef, useState } from 'react';
 import { useGPXParser } from '../hooks/useGPXParser';
+import { GPXMap } from './GPXMap';
 
 export const GPXUploader: React.FC = () => {
     const { parseGPXFile, clearData, gpxData, isLoading, error } = useGPXParser();
@@ -177,20 +178,10 @@ export const GPXUploader: React.FC = () => {
                         </div>
                     ))}
 
-                    {/* Placeholder for Map */}
-                    <div className="bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 p-8 text-center">
-                        <div className="space-y-2">
-                            <div className="mx-auto w-12 h-12 text-gray-400">
-                                <svg fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12,2C8.13,2 5,5.13 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9C19,5.13 15.87,2 12,2M12,4A5,5 0 0,1 17,9C17,11.88 12,16.19 12,16.19C12,16.19 7,11.88 7,9A5,5 0 0,1 12,4M12,7A2,2 0 0,0 10,9A2,2 0 0,0 12,11A2,2 0 0,0 14,9A2,2 0 0,0 12,7Z" />
-                                </svg>
-                            </div>
-                            <p className="text-lg font-medium text-gray-600">
-                                Karte wird hier angezeigt
-                            </p>
-                            <p className="text-sm text-gray-500">
-                                Als nächstes implementieren wir die Leaflet-Karte
-                            </p>
+                    {/* Karte statt Placeholder */}
+                    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <div className="h-96">
+                            <GPXMap tracks={gpxData.tracks} className="h-full" />
                         </div>
                     </div>
                 </div>
