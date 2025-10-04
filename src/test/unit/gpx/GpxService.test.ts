@@ -1,7 +1,11 @@
 import {describe, expect, it} from "vitest";
 import {GpxService} from "@/features/track/GpxService.ts";
 import * as fs from "fs";
-import {Coordinate, Track} from "@/features/track/Track.ts";
+import {
+    calculateDistanceBetweenPoints, calculateDistanceBetweenTwoCoordinates, calculateTimeBetweenCoordinates,
+    calculateTimeBetweenTwoCoordinatesByAverageSpeed,
+    Coordinate,
+} from "@/features/track/Track.ts";
 
 const gpxFilePath = "./src/test/testData/TestGpxRouteWithWaypoints.gpx"
 
@@ -32,7 +36,7 @@ describe('GPX Service', () => {
             elevation: null,
         }
         let distance: number = 7967
-        expect(Track.calculateDistanceBetweenTwoCoordinates(startCoordinate, endCoordinate)).toBe(distance)
+        expect(calculateDistanceBetweenTwoCoordinates(startCoordinate, endCoordinate)).toBe(distance)
     })
 
     it("should calculate the distance between an array of coordinates", () => {
@@ -55,7 +59,7 @@ describe('GPX Service', () => {
         }
 
         let distance: number = 12319
-        expect(Track.calculateDistanceBetweenPoints([startCoordinate, secondCoordinate, endCoordinate])).toBe(distance)
+        expect(calculateDistanceBetweenPoints([startCoordinate, secondCoordinate, endCoordinate])).toBe(distance)
     })
 
     it("should calculate the time between two coordinates", () => {
@@ -73,7 +77,7 @@ describe('GPX Service', () => {
         let averageSpeed = 20
         let time = 1.333
 
-        expect(Track.calculateTimeBetweenTwoCoordinatesByAverageSpeed(startCoordinate, endCoordinate, averageSpeed))
+        expect(calculateTimeBetweenTwoCoordinatesByAverageSpeed(startCoordinate, endCoordinate, averageSpeed))
             .toBe(time)
     })
 
@@ -97,7 +101,7 @@ describe('GPX Service', () => {
         let averageSpeed = 20
         let time = 2.475
 
-        expect(Track.calculateTimeBetweenCoordinates([startCoordinate,secondCoordinate, endCoordinate], averageSpeed))
+        expect(calculateTimeBetweenCoordinates([startCoordinate, secondCoordinate, endCoordinate], averageSpeed))
             .toBe(time)
     })
 

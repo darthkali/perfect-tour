@@ -1,7 +1,11 @@
 import {expect} from "vitest";
 import {GpxService} from "@/features/track/GpxService.ts";
-import {AnalysisPointService} from "@/features/track/AnalysisPointService.ts";
-import {Track} from "@/features/track/Track.ts";
+import {
+    calculateDistanceBetweenPoints,
+    calculateTimeBetweenCoordinates,
+    generateAnalysisPoints,
+    Track
+} from "@/features/track/Track.ts";
 
 export class RouteAnalysisTestDsl {
     private gpxFilePath!: string
@@ -26,9 +30,7 @@ export class RouteAnalysisTestDsl {
     }
 
     when_user_generates_analysis_points() {
-        let analysisPointService = new AnalysisPointService()
-        const analysisPoints = analysisPointService.generateAnalysisPoints(this.track.trackPoints)
-        this.analysisTrack = new Track(analysisPoints)
+        this.analysisTrack = generateAnalysisPoints(this.track)
     }
 
     then_i_get_an_array_of_points() {
@@ -65,7 +67,7 @@ export class RouteAnalysisTestDsl {
             if (endIndex !== -1) {
                 const segment = this.track.trackPoints.slice(startIndex, endIndex + 1);
 
-                let distance = Track.calculateDistanceBetweenPoints(segment.map(coordinate => coordinate.coordinate))
+                let distance = calculateDistanceBetweenPoints(segment.map(coordinate => coordinate.coordinate))
                 console.log(`Segment ${index}: Distance:`, distance);
 
                 expect(distance).toBeGreaterThan(10000);
@@ -103,7 +105,7 @@ export class RouteAnalysisTestDsl {
             if (endIndex !== -1) {
                 const segment = this.track.trackPoints.slice(startIndex, endIndex + 1);
 
-                let time = Track.calculateTimeBetweenCoordinates(segment.map(coordinate => coordinate.coordinate), 20)
+                let time = calculateTimeBetweenCoordinates(segment.map(coordinate => coordinate.coordinate), 20)
                 console.log(`Segment ${index}: Distance:`, time);
 
                 //todo time

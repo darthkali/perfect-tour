@@ -1,4 +1,4 @@
-import {RouteAnalysisTestDsl} from "@/test/behavior/route-analysis/RouteAnalysisTestDsl.ts";
+import {RouteAnalysisTestDsl} from "@/test/behavior/track/RouteAnalysisTestDsl.ts";
 import {beforeEach, describe, it} from "vitest";
 
 let dsl: RouteAnalysisTestDsl;

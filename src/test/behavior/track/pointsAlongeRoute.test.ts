@@ -1,5 +1,5 @@
 import {beforeEach, describe} from "vitest";
-import {RouteAnalysisTestDsl} from "@/test/behavior/route-analysis/RouteAnalysisTestDsl.ts";
+import {RouteAnalysisTestDsl} from "@/test/behavior/track/RouteAnalysisTestDsl.ts";
 
 describe("Points Along Route", () => {
     let dsl: RouteAnalysisTestDsl;

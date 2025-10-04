@@ -1,6 +1,6 @@
 import {parseGPX, Point} from "@we-gold/gpxjs";
 import * as fs from "fs";
-import {Track, TrackPoint} from "@/features/track/Track.ts";
+import {pointToCoordinate, Track, TrackPoint} from "@/features/track/Track.ts";
 
 export class GpxService {
 
@@ -10,12 +10,12 @@ export class GpxService {
         let points: Point[] = parsedFile?.tracks[0].points
         //todo add time
         let trackPoints: TrackPoint[] = points.map(point => ({
-            coordinate: Track.pointToCoordinate(point),
+            coordinate: pointToCoordinate(point),
             distanceFromStart: 0,
             timeFromStart: 0
         }))
 
-        return new Track(trackPoints)
+        return {trackPoints: trackPoints}
     }
 
     parseGpxFromPath(path: string): Track {
