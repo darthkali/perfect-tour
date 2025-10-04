@@ -1,73 +1,104 @@
-import {describe, it} from "vitest";
-import {GpxService} from "@/features/route-analysis/GpxService.ts";
-import {Point} from "@we-gold/gpxjs";
+import {describe, expect, it} from "vitest";
+import {GpxService} from "@/features/track/GpxService.ts";
 import * as fs from "fs";
+import {Coordinate, Track} from "@/features/track/Track.ts";
 
 const gpxFilePath = "./src/test/testData/TestGpxRouteWithWaypoints.gpx"
 
 
 describe('GPX Service', () => {
+    let gpxService = new GpxService();
+
     it("should work with a string as parameter", () => {
         let gpxService = new GpxService();
         let gpxFile = fs.readFileSync(gpxFilePath, "utf-8");
-        gpxService.parseGpxFromString(gpxFile)
+        gpxService.gpxToTrack(gpxFile)
 
     })
 
     it('should work with a path as parameter', () => {
-        let gpxService = new GpxService();
         gpxService.parseGpxFromPath(gpxFilePath)
     })
 
     it("should calculate the distance between two coordinates", () => {
-        let gpxService = new GpxService();
-        let startCoordinate: Point = {
+        let startCoordinate: Coordinate = {
             latitude: 50.725579,
             longitude: 10.703197,
             elevation: null,
-            time: null,
-            extensions: null
         }
-        let endCoordinate: Point = {
+        let endCoordinate: Coordinate = {
             latitude: 50.673567,
             longitude: 10.781002,
             elevation: null,
-            time: null,
-            extensions: null
         }
-        let distance:number = 7967
-        expect(gpxService.calculateDistanceBetweenTwoPoints(startCoordinate, endCoordinate)).toBe(distance)
+        let distance: number = 7967
+        expect(Track.calculateDistanceBetweenTwoCoordinates(startCoordinate, endCoordinate)).toBe(distance)
     })
 
     it("should calculate the distance between an array of coordinates", () => {
-        let gpxService = new GpxService();
-
-        let startCoordinate: Point = {
+        let startCoordinate: Coordinate = {
             latitude: 50.673567,
             longitude: 10.781002,
             elevation: null,
-            time: null,
-            extensions: null
         }
 
-        let secondCoordinate: Point = {
+        let secondCoordinate: Coordinate = {
             latitude: 50.725579,
             longitude: 10.703197,
             elevation: null,
-            time: null,
-            extensions: null
         }
 
-        let endCoordinate: Point = {
+        let endCoordinate: Coordinate = {
             latitude: 50.747612,
             longitude: 10.652093,
             elevation: null,
-            time: null,
-            extensions: null
         }
 
-        let distance:number = 12319
-        expect(gpxService.calculateDistanceBetweenPoints([startCoordinate, secondCoordinate, endCoordinate])).toBe(distance)
+        let distance: number = 12319
+        expect(Track.calculateDistanceBetweenPoints([startCoordinate, secondCoordinate, endCoordinate])).toBe(distance)
+    })
+
+    it("should calculate the time between two coordinates", () => {
+        let startCoordinate: Coordinate = {
+            latitude: 48.1351,
+            longitude: 11.5820,
+            elevation: null,
+        }
+        let endCoordinate: Coordinate = {
+            latitude: 48.2082,
+            longitude: 11.9245,
+            elevation: null,
+        }
+        // distance 26,67
+        let averageSpeed = 20
+        let time = 1.333
+
+        expect(Track.calculateTimeBetweenTwoCoordinatesByAverageSpeed(startCoordinate, endCoordinate, averageSpeed))
+            .toBe(time)
+    })
+
+    it("should calculate the time between an array of coordinates", () => {
+        let startCoordinate: Coordinate = {
+            latitude: 48.1351,
+            longitude: 11.5820,
+            elevation: null,
+        }
+        let secondCoordinate: Coordinate = {
+            latitude: 48.2082,
+            longitude: 11.9245,
+            elevation: null,
+        }
+        let endCoordinate: Coordinate = {
+            latitude: 48.3351,
+            longitude: 11.6820,
+            elevation: null,
+        }
+        // distance 26.67 + 22.83
+        let averageSpeed = 20
+        let time = 2.475
+
+        expect(Track.calculateTimeBetweenCoordinates([startCoordinate,secondCoordinate, endCoordinate], averageSpeed))
+            .toBe(time)
     })
 
 });
