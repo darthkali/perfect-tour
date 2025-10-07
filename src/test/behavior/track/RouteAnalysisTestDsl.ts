@@ -24,7 +24,7 @@ export class RouteAnalysisTestDsl {
         this.gpxFilePath = "./src/test/testData/TestShortGpxRoute.gpx"
     }
 
-    when_gpx_file_is_parsed_to_an_array_of_support_points() {
+    when_gpx_file_is_parsed_to_an_track() {
         let gpxService = new GpxService
         this.track = gpxService.parseGpxFromPath(this.gpxFilePath)
     }
@@ -33,12 +33,28 @@ export class RouteAnalysisTestDsl {
         this.analysisTrack = generateAnalysisPoints(this.track)
     }
 
-    then_i_get_an_array_of_points() {
+    then_the_result_should_be_a_valid_track_file() {
         const trackPoints = this.track.trackPoints;
         expect(trackPoints.length).toBeGreaterThan(1);
-        expect(typeof trackPoints[0].coordinate.latitude).toBe("number");
-        expect(typeof trackPoints[0].coordinate.longitude).toBe("number");
-        expect(typeof trackPoints[0].coordinate.elevation).toBe("number");
+
+        trackPoints.forEach((point, index) => {
+            expect(typeof point.coordinate.latitude).toBe("number");
+            expect(typeof point.coordinate.longitude).toBe("number");
+            expect(typeof point.coordinate.elevation).toBe("number");
+
+            expect(point.coordinate.latitude).greaterThan(0);
+            expect(point.coordinate.longitude).greaterThan(0);
+            expect(point.coordinate.elevation).greaterThan(0);
+
+// todo should fail?
+            if (index !== 0) {
+                expect(trackPoints[0].timeFromStart).toBe(0)
+                expect(trackPoints[0].distanceFromStart).toBe(0)
+            } else{
+                // expect(point.timeFromStart).greaterThan(0)
+                // expect(point.distanceFromStart).greaterThan(0)
+            }
+        })
     }
 
 
